@@ -35,8 +35,7 @@ Then: `maui-dev doctor`. Also `permissions`, `platform`, `publish --validate`, `
 
 ## Documentation
 
-https://github.com/nuvyntralabs/MauiDev
-https://github.com/nuvyntralabs/MauiDev#readme
+https://nuvyntralabs.github.io/toolkits/maui-dev/
 
 ## Source
 

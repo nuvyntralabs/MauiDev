@@ -68,7 +68,7 @@ public static class CliHost
           maui-dev analyze --ci
           maui-dev package --validate
 
-        Docs: https://github.com/nuvyntralabs/MauiDev
+        Docs: https://nuvyntralabs.github.io/toolkits/maui-dev/
         """;
 
     public static Task<int> RunAsync(IReadOnlyList<string> args, TextWriter stdout, TextWriter stderr) =>

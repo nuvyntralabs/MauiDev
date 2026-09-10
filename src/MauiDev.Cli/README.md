@@ -22,4 +22,4 @@ maui-dev package --validate
 
 Pair with `Plugin.Maui.Performance.Cli` (`maui-perf`) for traces and `Plugin.Maui.LeakAnalyser` for visual-tree leaks. MauiDev does not replace those packages.
 
-Docs: https://github.com/nuvyntralabs/MauiDev
+Docs: https://nuvyntralabs.github.io/toolkits/maui-dev/

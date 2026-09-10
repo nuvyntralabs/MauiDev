@@ -4,6 +4,7 @@ Developer productivity toolkit for .NET MAUI: a `maui-dev` [dotnet tool](https:/
 
 **GitHub:** https://github.com/nuvyntralabs/MauiDev  
 **NuGet:** https://www.nuget.org/packages/Plugin.Maui.MauiDev.Cli  
+**Docs:** https://nuvyntralabs.github.io/toolkits/maui-dev/  
 **Catalog:** https://github.com/nuvyntralabs/MauiEssentials  
 **Author:** [Niladri Prasad Padhy](https://github.com/NiladriPadhy)  
 **License:** MIT

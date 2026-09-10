@@ -17,8 +17,8 @@
     <PackageTags>dotnet-maui;maui;doctor;cli;dotnet-tool;vscode</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>1.2: publish --validate, migrate, telemetry scan, benchmark (maui-perf).</PackageReleaseNotes>
-    <Version>1.2.0</Version>
+    <PackageReleaseNotes>1.2.1: PackageProjectUrl is https://nuvyntralabs.github.io/toolkits/maui-dev/</PackageReleaseNotes>
+    <Version>1.2.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

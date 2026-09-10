@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1
+
+- `PackageProjectUrl` and docs links point at https://nuvyntralabs.github.io/toolkits/maui-dev/
+
 ## 1.2.0
 
 - `publish --validate` — store ApplicationId / CFBundleIdentifier, iOS privacy manifest, pack metadata. `--push` is rejected
