@@ -1,7 +1,7 @@
 # MauiDev.Cli (maui-dev) PackAsTool + VS Code / Cursor extension.
 # Version alignment covers the packable CLI and extension/vscode/package.json.
 # Pack emits the PackAsTool nupkg only (no snupkg). Linux is enough (net10.0).
-# Publish pushes the nupkg to nuget.org and GitHub Packages.
+# Publish pushes the nupkg to nuget.org (secret NUGET_KEY-MauiDev-Cli) and GitHub Packages.
 # Extension: vsce package always; Marketplace / Open VSX when secrets exist.
 name: CI
 
@@ -77,9 +77,9 @@ jobs:
           ref: main
           path: .ci-tools
 
-      - name: Check NUGET_KEY and published version
+      - name: Check NUGET_KEY-MauiDev-Cli and published version
         env:
-          NUGET_KEY: ${{ secrets.NUGET_KEY }}
+          NUGET_KEY: ${{ secrets['NUGET_KEY-MauiDev-Cli'] }}
         run: |
           set -euo pipefail
           script=".github/scripts/check-nuget-release.py"
@@ -153,7 +153,7 @@ jobs:
           path: packages
       - name: Push nupkg
         env:
-          NUGET_KEY: ${{ secrets.NUGET_KEY }}
+          NUGET_KEY: ${{ secrets['NUGET_KEY-MauiDev-Cli'] }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
         run: |

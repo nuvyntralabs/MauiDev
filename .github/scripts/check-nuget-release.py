@@ -264,7 +264,7 @@ def main() -> int:
 
     api_key = os.environ.get("NUGET_KEY", "").strip()
     if not api_key:
-        fail("NUGET_KEY secret is empty. Add a valid nuget.org API key under Settings → Secrets and variables → Actions.")
+        fail("NUGET_KEY-MauiDev-Cli secret is empty. Add a valid nuget.org API key as Actions secret NUGET_KEY-MauiDev-Cli.")
 
     src_projects = [path for path in ci.find_csprojs(plugin_root, "src") if ci.is_packable(path)]
     if not src_projects:

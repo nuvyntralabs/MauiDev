@@ -94,7 +94,7 @@ def main() -> int:
     ).strip()
 
     if not nuget_key:
-        fail("NUGET_KEY secret is empty. Add a valid nuget.org API key under Settings → Secrets and variables → Actions.")
+        fail("NUGET_KEY-MauiDev-Cli secret is empty. Add a valid nuget.org API key as Actions secret NUGET_KEY-MauiDev-Cli.")
     if not github_token:
         fail("GITHUB_TOKEN is empty. Grant packages: write on the publish job.")
     if not owner:

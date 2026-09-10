@@ -56,7 +56,7 @@ Exit codes: `0` pass/skip, `1` fail (or warning with `--warn-as-error` / `--ci`)
 - script: maui-dev package --validate --ci
 ```
 
-Publishing `MauiDev.Cli` is pipeline-only on this repository. Do not run `dotnet nuget push` from a local clone.
+Publishing `MauiDev.Cli` is pipeline-only on this repository. nuget.org uses the Actions secret `NUGET_KEY-MauiDev-Cli`. Do not run `dotnet nuget push` from a local clone.
 
 ## Later (not 1.0)
 
