@@ -166,10 +166,13 @@ jobs:
 
   extension:
     name: VS Code extension
-    needs: [test]
+    needs: [test, version-align]
     if: success()
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -177,32 +180,42 @@ jobs:
           node-version: "22"
           cache: npm
           cache-dependency-path: extension/vscode/package-lock.json
-      - name: Compile and package
-        working-directory: extension/vscode
+      - name: Pack VSIX
         run: |
           set -euo pipefail
-          npm ci
-          npx --yes @vscode/vsce package --allow-missing-repository
-          mkdir -p ../../artifacts/vsix
-          mv *.vsix ../../artifacts/vsix/
-      - uses: actions/upload-artifact@v4
+          version="${{ needs.version-align.outputs.version }}"
+          mkdir -p artifacts
+          (
+            cd extension/vscode
+            npm ci
+            npx --yes @vscode/vsce package --allow-missing-repository --out "../../artifacts/nuvyntralabs.maui-dev-${version}.vsix"
+          )
+      - name: Upload VS Code VSIX
+        id: upload
+        uses: actions/upload-artifact@v4
         with:
-          name: vsix-MauiDev
-          path: artifacts/vsix/*
+          name: vscode-MauiDev
+          path: artifacts/nuvyntralabs.maui-dev-*.vsix
           if-no-files-found: error
           retention-days: 14
+      - name: Summary
+        run: |
+          {
+            echo "### VS Code VSIX"
+            echo
+            echo "Download: [vscode-MauiDev](${{ steps.upload.outputs.artifact-url }})"
+            echo
+            echo "Then update the Visual Studio Code listing at [Marketplace manage](https://marketplace.visualstudio.com/manage)."
+          } >> "$GITHUB_STEP_SUMMARY"
       - name: Publish Marketplace and Open VSX
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
         run: |
           set -euo pipefail
-          vsix="$(ls artifacts/vsix/*.vsix | head -n 1)"
+          vsix="$(ls artifacts/nuvyntralabs.maui-dev-*.vsix | head -n 1)"
           if [ -z "${VSCE_PAT:-}" ] || [ -z "${OVSX_PAT:-}" ]; then
-            echo "::warning::VSCE_PAT or OVSX_PAT missing. VSIX was packaged; Marketplace/Open VSX publish skipped."
-            if [ "${GITHUB_REF_NAME}" = "main" ]; then
-              echo "Add VSCE_PAT and OVSX_PAT to publish the extension from main."
-            fi
+            echo "::warning::VSCE_PAT or OVSX_PAT missing. VSIX is on the vscode-MauiDev artifact for a manual Marketplace update."
             exit 0
           fi
           npx --yes @vscode/vsce publish --packagePath "$vsix"
