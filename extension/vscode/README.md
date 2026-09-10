@@ -7,6 +7,17 @@ Runs the `maui-dev` .NET global tool and maps JSON diagnostics into the Problems
 - MauiDev: Doctor
 - MauiDev: Analyze
 - MauiDev: Resources
+- MauiDev: Permissions
+- MauiDev: Platform
+- MauiDev: Signing
+- MauiDev: Workload
+- MauiDev: Version
+- MauiDev: Dependencies
+- MauiDev: Icons
+- MauiDev: Validate Publish
+- MauiDev: Migrate
+- MauiDev: Telemetry scan
+- MauiDev: Benchmark
 - MauiDev: Clean
 - MauiDev: Validate Package
 - MauiDev: Show last report

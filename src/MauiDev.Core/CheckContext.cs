@@ -13,6 +13,11 @@ public sealed class CheckContext
     public TimeSpan Timeout { get; init; } = TimeSpan.FromSeconds(30);
     public IReadOnlySet<string> IgnoreIds { get; init; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
+    public bool Ignores(string id) => IgnoreIds.Contains(id);
+
+    public IReadOnlyList<DiagnosticFinding> Filter(IEnumerable<DiagnosticFinding> diagnostics) =>
+        diagnostics.Where(item => !IgnoreIds.Contains(item.Id)).ToArray();
+
     public static CheckContext CreateDefault(string rootPath, bool ci = false, bool fix = false, bool dryRun = false, bool warnAsError = false, TimeSpan? timeout = null)
     {
         var files = new PhysicalFileSystem();

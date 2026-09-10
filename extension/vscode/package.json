@@ -2,7 +2,7 @@
   "name": "maui-dev",
   "displayName": "MauiDev",
   "description": "Diagnose .NET MAUI SDK, project configuration, resources, and NuGet pack metadata via maui-dev.",
-  "version": "1.0.1",
+  "version": "1.2.0",
   "publisher": "nuvyntralabs",
   "license": "MIT",
   "engines": {
@@ -37,6 +37,50 @@
       {
         "command": "mauiDev.resources",
         "title": "MauiDev: Resources"
+      },
+      {
+        "command": "mauiDev.permissions",
+        "title": "MauiDev: Permissions"
+      },
+      {
+        "command": "mauiDev.platform",
+        "title": "MauiDev: Platform"
+      },
+      {
+        "command": "mauiDev.signing",
+        "title": "MauiDev: Signing"
+      },
+      {
+        "command": "mauiDev.workload",
+        "title": "MauiDev: Workload"
+      },
+      {
+        "command": "mauiDev.version",
+        "title": "MauiDev: Version"
+      },
+      {
+        "command": "mauiDev.dependencies",
+        "title": "MauiDev: Dependencies"
+      },
+      {
+        "command": "mauiDev.icons",
+        "title": "MauiDev: Icons"
+      },
+      {
+        "command": "mauiDev.publish",
+        "title": "MauiDev: Validate Publish"
+      },
+      {
+        "command": "mauiDev.migrate",
+        "title": "MauiDev: Migrate"
+      },
+      {
+        "command": "mauiDev.telemetry",
+        "title": "MauiDev: Telemetry scan"
+      },
+      {
+        "command": "mauiDev.benchmark",
+        "title": "MauiDev: Benchmark"
       },
       {
         "command": "mauiDev.clean",

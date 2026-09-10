@@ -17,8 +17,8 @@
     <PackageTags>dotnet-maui;maui;doctor;cli;dotnet-tool;vscode</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Use PackageId Plugin.Maui.MauiDev.Cli. nuget.org reserved MauiDev.Cli (gallery 404, uploads rejected).</PackageReleaseNotes>
-    <Version>1.0.1</Version>
+    <PackageReleaseNotes>1.2: publish --validate, migrate, telemetry scan, benchmark (maui-perf).</PackageReleaseNotes>
+    <Version>1.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

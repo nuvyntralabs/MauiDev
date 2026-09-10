@@ -22,6 +22,29 @@ public sealed class DoctorEngine
             }
 
             var result = await check.RunAsync(context, cancellationToken).ConfigureAwait(false);
+            if (result.Diagnostics.Count > 0)
+            {
+                var filtered = context.Filter(result.Diagnostics);
+                if (filtered.Count != result.Diagnostics.Count)
+                {
+                    result = new CheckResult
+                    {
+                        CheckId = result.CheckId,
+                        Title = result.Title,
+                        Category = result.Category,
+                        Status = filtered.Any(item => item.Severity == CheckStatus.Fail)
+                            ? CheckStatus.Fail
+                            : filtered.Any(item => item.Severity == CheckStatus.Warn)
+                                ? CheckStatus.Warn
+                                : result.Status == CheckStatus.Skip ? CheckStatus.Skip : CheckStatus.Pass,
+                        Detail = result.Detail,
+                        Recommendation = result.Recommendation,
+                        Diagnostics = filtered,
+                        CanFix = result.CanFix
+                    };
+                }
+            }
+
             results.Add(result);
 
             if (context.Fix && result.CanFix && check.CanFix && result.Status is CheckStatus.Fail or CheckStatus.Warn)

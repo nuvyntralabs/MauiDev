@@ -21,13 +21,24 @@ maui-dev doctor
 
 VS Code / Cursor: install the **MauiDev** extension (`nuvyntralabs.maui-dev`) from the Marketplace or Open VSX. The extension shells out to `maui-dev` and offers to install the tool if it is missing.
 
-## Commands (1.0)
+## Commands (1.2)
 
 | Command | Purpose |
 | --- | --- |
 | `maui-dev doctor` | SDK, workloads, Android SDK, JDK, Xcode, CocoaPods, TFMs, min SDK, permissions, duplicate resources, UseMaui, signing |
 | `maui-dev analyze` | Cheap C# heuristics (event retention, HttpClient, fire-and-forget, MainThread hops, platform guards) |
 | `maui-dev resources` | Duplicate / missing / unused MauiImage, splash, font |
+| `maui-dev permissions` | Android unused/duplicate permissions, iOS usage strings, Android 13+ media/notification |
+| `maui-dev platform` | TFM ↔ `Platforms/` folders, shared-code guards, Windows/Catalyst note, min OS |
+| `maui-dev signing` | Keystore / entitlements checklist. Never writes secrets |
+| `maui-dev workload` | Diagnose the MAUI workload and print the install command. Never installs |
+| `maui-dev version` | Align packable `Version` values (`--align`) or `--bump patch\|minor\|major` |
+| `maui-dev dependencies` | PackageReference duplicates, Maui.Controls drift, CPM clash, tool-as-library |
+| `maui-dev icons` | MauiIcon / splash presence, adaptive background, iOS 1024 marketing size |
+| `maui-dev publish` | Validate store ApplicationId / CFBundleIdentifier, iOS privacy manifest, pack metadata. Never pushes |
+| `maui-dev migrate` | Flag `net8`/`net9` TFMs, Xamarin.Forms / Essentials, `Forms.Init` / `LoadApplication` |
+| `maui-dev telemetry` | Scan the **app** for crash / analytics SDKs. The CLI collects nothing |
+| `maui-dev benchmark` | Shell to `maui-perf` (`Plugin.Maui.Performance.Cli`). Android / iOS simulator only |
 | `maui-dev clean` | Delete `bin` / `obj` (optional NuGet HTTP cache and workload temp behind flags) |
 | `maui-dev package` | Validate pack metadata (`--validate`, default). `--pack` runs `dotnet pack` locally and never pushes |
 
@@ -35,14 +46,21 @@ Global options: `--path`, `--format human|json|sarif`, `--ci` (JSON + warn-as-er
 
 ```bash
 maui-dev doctor --fix --dry-run
+maui-dev permissions --fix --dry-run
+maui-dev version --align --dry-run
+maui-dev publish --validate --ci
+maui-dev migrate
+maui-dev telemetry
+maui-dev benchmark
 maui-dev analyze --ci
 maui-dev package --validate
 ```
 
-`doctor --fix` only:
+`--fix` only:
 
-- Deduplicates identical `MauiSplashScreen` / `MauiImage` / `MauiIcon` / `MauiFont` items
-- Inserts `<UseMaui>true</UseMaui>` when the project already looks like MAUI
+- `doctor`: deduplicates identical `MauiSplashScreen` / `MauiImage` / `MauiIcon` / `MauiFont` items; inserts `<UseMaui>true</UseMaui>` when the project already looks like MAUI
+- `permissions`: deduplicates identical Android `UsesPermission` / manifest nodes
+- `version --align` / `--bump`: writes `Version` / `PackageVersion` and `extension/vscode/package.json`
 
 It never bumps min SDK, removes permissions, writes signing secrets, installs workloads, or publishes NuGet packages.
 
@@ -53,11 +71,11 @@ Exit codes: `0` pass/skip, `1` fail (or warning with `--warn-as-error` / `--ci`)
 ```yaml
 - script: maui-dev doctor --ci
 - script: maui-dev analyze --ci
+- script: maui-dev permissions --ci
+- script: maui-dev platform --ci
+- script: maui-dev publish --validate --ci
+- script: maui-dev migrate --ci
 - script: maui-dev package --validate --ci
 ```
 
 Publishing `Plugin.Maui.MauiDev.Cli` is pipeline-only on this repository. nuget.org reserved the ID `MauiDev.Cli` (the gallery page 404s and uploads are rejected). nuget.org uses the Actions secret `NUGET_KEY_MAUIDEV_CLI`; that key must be allowed to push `Plugin.Maui.*`. Do not run `dotnet nuget push` from a local clone.
-
-## Later (not 1.0)
-
-`permissions`, `platform`, `signing`, `publish`, `workload`, `version`, `dependencies`, `migrate`, `icons`, `telemetry`, `benchmark` (will shell to `maui-perf`), plus `MauiDev.Analyzers` and `MauiDev.Templates`.

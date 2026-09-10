@@ -9,11 +9,22 @@ public static class CliHost
         """
         maui-dev — developer productivity toolkit for .NET MAUI
 
-          maui-dev doctor     Diagnose SDK, workloads, and project configuration
-          maui-dev analyze    Heuristic source and project analysis
-          maui-dev resources  Duplicate / missing / unused MAUI resources
-          maui-dev clean      Delete bin and obj folders
-          maui-dev package    Validate (default) or locally pack NuGet projects
+          maui-dev doctor        Diagnose SDK, workloads, and project configuration
+          maui-dev analyze       Heuristic source and project analysis
+          maui-dev resources     Duplicate / missing / unused MAUI resources
+          maui-dev permissions   Android permissions and iOS usage strings
+          maui-dev platform      TFM ↔ Platforms/ folder and compile guards
+          maui-dev signing       CI signing checklist (never writes secrets)
+          maui-dev workload      MAUI workload diagnosis (never installs)
+          maui-dev version       Align or bump packable Version values
+          maui-dev dependencies  PackageReference hygiene
+          maui-dev icons         App icon / splash completeness
+          maui-dev publish       Validate store identity and pack metadata. Never pushes
+          maui-dev migrate       Flag net8/net9 TFMs and Xamarin leftovers
+          maui-dev telemetry     Scan the app for crash / analytics SDKs (CLI collects nothing)
+          maui-dev benchmark     Shell to maui-perf (install Plugin.Maui.Performance.Cli)
+          maui-dev clean         Delete bin and obj folders
+          maui-dev package       Validate (default) or locally pack NuGet projects
 
         Options
           --path <dir>              Project or solution directory
@@ -35,9 +46,25 @@ public static class CliHost
           --validate                Default. Check versions, README, icon, license
           --pack                    Run dotnet pack locally. Never pushes.
 
+        version extras
+          --align                   Write every packable Version to the highest existing
+          --bump patch|minor|major  Increment, then write (implies --align)
+
+        publish extras
+          --validate                Default. There is no --push.
+
+        benchmark extras
+          extra args                Forwarded to maui-perf (default --help)
+
         Examples
           maui-dev doctor
           maui-dev doctor --fix --dry-run
+          maui-dev permissions --fix --dry-run
+          maui-dev version --align --dry-run
+          maui-dev publish --validate --ci
+          maui-dev migrate
+          maui-dev telemetry
+          maui-dev benchmark startup
           maui-dev analyze --ci
           maui-dev package --validate
 
@@ -101,6 +128,8 @@ public static class CliHost
         var forceOption = new Option<bool>("--force");
         var validateOption = new Option<bool>("--validate") { Description = "Validate pack metadata (default)" };
         var packOption = new Option<bool>("--pack") { Description = "Run dotnet pack locally" };
+        var alignOption = new Option<bool>("--align") { Description = "Write packable versions to the highest existing" };
+        var bumpOption = new Option<string?>("--bump") { Description = "patch | minor | major" };
 
         var shared = new Option[] { pathOption, formatOption, ciOption, fixOption, dryRunOption, warnOption, timeoutOption };
 
@@ -173,10 +202,95 @@ public static class CliHost
             return Write(validator.Validate(context), options, stdout);
         });
 
+        var permissions = Diagnose("permissions", "Android permissions and iOS usage strings", shared, pathOption, formatOption, ciOption, fixOption, dryRunOption, warnOption, timeoutOption, contextFactory, stdout, context => new PermissionsEngine().Run(context));
+        var platform = Diagnose("platform", "TFM, Platforms/ folders, and compile guards", shared, pathOption, formatOption, ciOption, fixOption, dryRunOption, warnOption, timeoutOption, contextFactory, stdout, context => new PlatformEngine().Run(context));
+        var signing = Diagnose("signing", "CI signing checklist", shared, pathOption, formatOption, ciOption, fixOption, dryRunOption, warnOption, timeoutOption, contextFactory, stdout, context => new SigningEngine().Run(context));
+        var dependencies = Diagnose("dependencies", "PackageReference hygiene", shared, pathOption, formatOption, ciOption, fixOption, dryRunOption, warnOption, timeoutOption, contextFactory, stdout, context => new DependenciesEngine().Run(context));
+        var icons = Diagnose("icons", "App icon and splash completeness", shared, pathOption, formatOption, ciOption, fixOption, dryRunOption, warnOption, timeoutOption, contextFactory, stdout, context => new IconsEngine().Run(context));
+        var migrate = Diagnose("migrate", "Flag leftover net8/net9 TFMs and Xamarin APIs", shared, pathOption, formatOption, ciOption, fixOption, dryRunOption, warnOption, timeoutOption, contextFactory, stdout, context => new MigrateEngine().Run(context));
+        var telemetry = Diagnose("telemetry", "Scan the app for crash / analytics SDKs", shared, pathOption, formatOption, ciOption, fixOption, dryRunOption, warnOption, timeoutOption, contextFactory, stdout, context => new TelemetryEngine().Run(context));
+        var pushOption = new Option<bool>("--push") { Description = "Rejected. maui-dev never pushes." };
+        var publish = new Command("publish", "Validate store identity and pack metadata (never pushes)");
+        Add(publish, shared);
+        publish.Options.Add(validateOption);
+        publish.Options.Add(pushOption);
+        publish.SetAction(parse =>
+        {
+            if (parse.GetValue(pushOption))
+            {
+                stderr.WriteLine("publish --push is not supported. Use --validate only. Publishing is pipeline-only.");
+                return ExitCodes.Usage;
+            }
+
+            var options = Read(parse, pathOption, formatOption, ciOption, fixOption, dryRunOption, warnOption, timeoutOption);
+            return Write(new PublishEngine().Run(CreateContext(options, contextFactory)), options, stdout);
+        });
+
+        var workload = new Command("workload", "Diagnose the MAUI workload (never installs)");
+        Add(workload, shared);
+        workload.SetAction(async (parse, token) =>
+        {
+            var options = Read(parse, pathOption, formatOption, ciOption, fixOption, dryRunOption, warnOption, timeoutOption);
+            var context = CreateContext(options, contextFactory);
+            return Write(await new WorkloadEngine().RunAsync(context, token).ConfigureAwait(false), options, stdout);
+        });
+
+        var benchmarkArgs = new Argument<string[]>("maui-perf-args")
+        {
+            Description = "Arguments forwarded to maui-perf (default --help)",
+            Arity = ArgumentArity.ZeroOrMore
+        };
+        var benchmark = new Command("benchmark", "Shell to maui-perf (never reimplements maui profile)");
+        Add(benchmark, shared);
+        benchmark.Arguments.Add(benchmarkArgs);
+        benchmark.TreatUnmatchedTokensAsErrors = false;
+        benchmark.SetAction(async (parse, token) =>
+        {
+            var options = Read(parse, pathOption, formatOption, ciOption, fixOption, dryRunOption, warnOption, timeoutOption);
+            var context = CreateContext(options, contextFactory);
+            var forwarded = (parse.GetValue(benchmarkArgs) ?? []).Concat(parse.UnmatchedTokens).ToArray();
+            var request = new BenchmarkRequest { Arguments = forwarded };
+            return Write(await new BenchmarkEngine().RunAsync(context, request, token).ConfigureAwait(false), options, stdout);
+        });
+
+        var version = new Command("version", "Align or bump packable Version values");
+        Add(version, shared);
+        version.Options.Add(alignOption);
+        version.Options.Add(bumpOption);
+        version.SetAction(parse =>
+        {
+            var options = Read(parse, pathOption, formatOption, ciOption, fixOption, dryRunOption, warnOption, timeoutOption);
+            var context = CreateContext(options, contextFactory);
+            var bump = parse.GetValue(bumpOption);
+            if (bump is { Length: > 0 } && bump is not ("patch" or "minor" or "major"))
+            {
+                stderr.WriteLine("version --bump must be patch, minor, or major.");
+                return ExitCodes.Usage;
+            }
+
+            var request = new VersionRequest
+            {
+                Align = parse.GetValue(alignOption) || parse.GetValue(fixOption),
+                Bump = bump
+            };
+            return Write(new VersionEngine().Run(context, request), options, stdout);
+        });
+
         var root = new RootCommand("MauiDev — developer productivity toolkit for .NET MAUI");
         root.Subcommands.Add(doctor);
         root.Subcommands.Add(analyze);
         root.Subcommands.Add(resources);
+        root.Subcommands.Add(permissions);
+        root.Subcommands.Add(platform);
+        root.Subcommands.Add(signing);
+        root.Subcommands.Add(workload);
+        root.Subcommands.Add(version);
+        root.Subcommands.Add(dependencies);
+        root.Subcommands.Add(icons);
+        root.Subcommands.Add(publish);
+        root.Subcommands.Add(migrate);
+        root.Subcommands.Add(telemetry);
+        root.Subcommands.Add(benchmark);
         root.Subcommands.Add(clean);
         root.Subcommands.Add(package);
         root.SetAction(_ =>
@@ -185,6 +299,31 @@ public static class CliHost
             return ExitCodes.Success;
         });
         return root;
+    }
+
+    static Command Diagnose(
+        string name,
+        string description,
+        IEnumerable<Option> shared,
+        Option<string?> pathOption,
+        Option<string> formatOption,
+        Option<bool> ciOption,
+        Option<bool> fixOption,
+        Option<bool> dryRunOption,
+        Option<bool> warnOption,
+        Option<int> timeoutOption,
+        Func<string, CheckContext> contextFactory,
+        TextWriter stdout,
+        Func<CheckContext, DoctorReport> run)
+    {
+        var command = new Command(name, description);
+        Add(command, shared);
+        command.SetAction(parse =>
+        {
+            var options = Read(parse, pathOption, formatOption, ciOption, fixOption, dryRunOption, warnOption, timeoutOption);
+            return Write(run(CreateContext(options, contextFactory)), options, stdout);
+        });
+        return command;
     }
 
     static void Add(Command command, IEnumerable<Option> options)
@@ -246,7 +385,10 @@ public static class CliHost
         value is "-h" or "--help" or "-?" or "help";
 
     static bool LooksLikeKnownCommand(string value) =>
-        value is "doctor" or "analyze" or "resources" or "clean" or "package";
+        value is "doctor" or "analyze" or "resources" or "permissions" or "platform"
+            or "signing" or "workload" or "version" or "dependencies" or "icons"
+            or "publish" or "migrate" or "telemetry" or "benchmark"
+            or "clean" or "package";
 
     sealed record GlobalOptions(string? Path, ReportFormat Format, bool Ci, bool Fix, bool DryRun, bool WarnAsError, TimeSpan Timeout);
 }

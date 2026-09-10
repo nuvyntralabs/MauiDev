@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.2.0
+
+- `publish --validate` — store ApplicationId / CFBundleIdentifier, iOS privacy manifest, pack metadata. `--push` is rejected
+- `migrate` — net8/net9 TFMs, Xamarin.Forms / Essentials, Forms.Init / LoadApplication (no rewrite)
+- `telemetry` — scan the app for crash / analytics SDKs. The CLI collects nothing
+- `benchmark` — shells to `maui-perf` (`Plugin.Maui.Performance.Cli`); MD900 if the tool is missing
+
+## 1.1.0
+
+- `permissions`, `platform`, `signing`, `workload`, `version`, `dependencies`, `icons`
+- `permissions --fix` deduplicates identical Android permission nodes
+- `version --align` / `--bump patch|minor|major` write packable Version values (honors `--dry-run`)
+- `.maui-dev.json` `ignore` accepts diagnostic ids (`MD020`) as well as check ids
+
 ## 1.0.1
 
 - PackageId is `Plugin.Maui.MauiDev.Cli`. nuget.org reserved `MauiDev.Cli` (gallery 404, upload rejected). Command stays `maui-dev`.

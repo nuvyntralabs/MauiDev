@@ -12,7 +12,29 @@ public sealed class CliHostTests
         var stderr = new StringWriter();
         var code = await CliHost.RunAsync([], stdout, stderr);
         Assert.Equal(0, code);
-        Assert.Contains("maui-dev doctor", stdout.ToString(), StringComparison.Ordinal);
+        var usage = stdout.ToString();
+        Assert.Contains("maui-dev doctor", usage, StringComparison.Ordinal);
+        Assert.Contains("maui-dev permissions", usage, StringComparison.Ordinal);
+        Assert.Contains("maui-dev version", usage, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task PermissionsIsAKnownCommand()
+    {
+        var stdout = new StringWriter();
+        var stderr = new StringWriter();
+        var code = await CliHost.RunAsync(["permissions", "--path", Path.GetTempPath()], stdout, stderr);
+        Assert.NotEqual(ExitCodes.Usage, code);
+        Assert.DoesNotContain("Unknown command", stderr.ToString(), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task VersionRejectsInvalidBump()
+    {
+        var stderr = new StringWriter();
+        var code = await CliHost.RunAsync(["version", "--bump", "sideways"], new StringWriter(), stderr);
+        Assert.Equal(ExitCodes.Usage, code);
+        Assert.Contains("patch, minor, or major", stderr.ToString(), StringComparison.Ordinal);
     }
 
     [Fact]
@@ -20,7 +42,7 @@ public sealed class CliHostTests
     {
         var stdout = new StringWriter();
         var stderr = new StringWriter();
-        var code = await CliHost.RunAsync(["migrate"], stdout, stderr);
+        var code = await CliHost.RunAsync(["not-a-command"], stdout, stderr);
         Assert.Equal(ExitCodes.Usage, code);
         Assert.Contains("Unknown command", stderr.ToString(), StringComparison.Ordinal);
     }
