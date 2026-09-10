@@ -2,7 +2,7 @@
   "name": "maui-dev",
   "displayName": "MauiDev",
   "description": "Diagnose .NET MAUI SDK, project configuration, resources, and NuGet pack metadata via maui-dev.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "nuvyntralabs",
   "license": "MIT",
   "engines": {
