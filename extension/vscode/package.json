@@ -1,0 +1,93 @@
+{
+  "name": "maui-dev",
+  "displayName": "MauiDev",
+  "description": "Diagnose .NET MAUI SDK, project configuration, resources, and NuGet pack metadata via maui-dev.",
+  "version": "1.0.0",
+  "publisher": "nuvyntralabs",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Linters",
+    "Other"
+  ],
+  "keywords": [
+    "maui",
+    "dotnet",
+    "doctor",
+    "android",
+    "ios"
+  ],
+  "activationEvents": [
+    "workspaceContains:**/*.csproj",
+    "workspaceContains:**/.maui-dev.json"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "mauiDev.doctor",
+        "title": "MauiDev: Doctor"
+      },
+      {
+        "command": "mauiDev.analyze",
+        "title": "MauiDev: Analyze"
+      },
+      {
+        "command": "mauiDev.resources",
+        "title": "MauiDev: Resources"
+      },
+      {
+        "command": "mauiDev.clean",
+        "title": "MauiDev: Clean"
+      },
+      {
+        "command": "mauiDev.package",
+        "title": "MauiDev: Validate Package"
+      },
+      {
+        "command": "mauiDev.showReport",
+        "title": "MauiDev: Show last report"
+      },
+      {
+        "command": "mauiDev.installTool",
+        "title": "MauiDev: Install MauiDev.Cli"
+      }
+    ],
+    "configuration": {
+      "title": "MauiDev",
+      "properties": {
+        "mauiDev.toolPath": {
+          "type": "string",
+          "default": "",
+          "description": "Absolute path to the maui-dev executable. Leave empty to use PATH or ~/.dotnet/tools."
+        },
+        "mauiDev.warnAsError": {
+          "type": "boolean",
+          "default": false,
+          "description": "Treat doctor/analyze warnings as errors in the Problems panel."
+        },
+        "mauiDev.autoDoctorOnOpen": {
+          "type": "boolean",
+          "default": false,
+          "description": "Run maui-dev doctor when a MAUI workspace opens."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.8.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nuvyntralabs/MauiDev.git"
+  }
+}

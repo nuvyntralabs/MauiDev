@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>maui-dev</ToolCommandName>
+    <IsPackable>true</IsPackable>
+    <IncludeSymbols>false</IncludeSymbols>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <RootNamespace>MauiDev.Cli</RootNamespace>
+    <AssemblyName>MauiDev.Cli</AssemblyName>
+
+    <PackageId>MauiDev.Cli</PackageId>
+    <Title>maui-dev — .NET MAUI developer doctor</Title>
+    <Description>dotnet tool that diagnoses MAUI SDK, workloads, project configuration, resources, and pack metadata. Pair with the MauiDev VS Code / Cursor extension.</Description>
+    <PackageTags>dotnet-maui;maui;doctor;cli;dotnet-tool;vscode</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReleaseNotes>Initial maui-dev release: doctor, analyze, resources, clean, and package validate.</PackageReleaseNotes>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
+    <None Include="..\..\nuget.png" Pack="true" PackagePath="icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MauiDev.Core\MauiDev.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CommandLine" Version="2.0.0" />
+  </ItemGroup>
+
+</Project>

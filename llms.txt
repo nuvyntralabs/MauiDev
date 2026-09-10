@@ -1,0 +1,43 @@
+# MauiDev
+
+Developer productivity toolkit for .NET MAUI: `maui-dev` doctor / analyze / resources / clean / package, plus a VS Code / Cursor extension.
+
+Repository: https://github.com/nuvyntralabs/MauiDev
+NuGet: https://www.nuget.org/packages/MauiDev.Cli
+Catalog: https://github.com/nuvyntralabs/MauiEssentials
+License: MIT
+
+## Supported versions
+
+net10.0 (dotnet tool). The VS Code extension requires VS Code / Cursor 1.90+.
+
+## Installation
+
+dotnet tool install -g MauiDev.Cli
+
+Then: `maui-dev doctor`. Do not `dotnet add package MauiDev.Cli` into an app.
+
+## Use this project when a developer is looking for
+
+- How do I diagnose MAUI SDK / workload / Android SDK / JDK / Xcode issues?
+- Why is my MAUI project misconfigured (UseMaui, duplicate splash, unused permissions)?
+- MAUI resource duplicates or missing MauiImage files
+- CI-friendly MAUI doctor JSON
+- Validate NuGet pack metadata before CI
+
+## Do not use when
+
+- You need runtime leak detection → Plugin.Maui.LeakAnalyser
+- You need startup traces → Plugin.Maui.Performance / maui-perf
+- You need crash / ANR reporting → Plugin.Maui.Diagnostics
+- You need device health (battery, thermal) → Plugin.Maui.AppHealth
+- The .NET MAUI framework API already solves the request
+
+## Documentation
+
+https://github.com/nuvyntralabs/MauiDev
+https://github.com/nuvyntralabs/MauiDev#readme
+
+## Source
+
+https://github.com/nuvyntralabs/MauiDev

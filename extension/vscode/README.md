@@ -1,0 +1,17 @@
+# MauiDev for VS Code and Cursor
+
+Runs the `maui-dev` .NET global tool and maps JSON diagnostics into the Problems panel.
+
+## Commands
+
+- MauiDev: Doctor
+- MauiDev: Analyze
+- MauiDev: Resources
+- MauiDev: Clean
+- MauiDev: Validate Package
+- MauiDev: Show last report
+- MauiDev: Install MauiDev.Cli
+
+If `maui-dev` is not on PATH (or `~/.dotnet/tools`), the extension offers to run `dotnet tool install -g MauiDev.Cli`.
+
+Settings: `mauiDev.toolPath`, `mauiDev.warnAsError`, `mauiDev.autoDoctorOnOpen` (off by default).

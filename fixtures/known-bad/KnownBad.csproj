@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-android;net10.0-ios</TargetFrameworks>
+    <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
+    <ApplicationId>com.nuvyntra.known.bad</ApplicationId>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <MauiSplashScreen Include="Resources/Splash/splash.svg" />
+    <MauiSplashScreen Include="Resources/Splash/splash.svg" />
+    <MauiImage Include="Resources/Images/logo.png" />
+    <UsesPermission Include="android.permission.CAMERA" />
+  </ItemGroup>
+</Project>

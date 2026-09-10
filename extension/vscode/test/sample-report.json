@@ -1,0 +1,39 @@
+{
+  "command": "doctor",
+  "exitCode": 1,
+  "results": [
+    {
+      "id": "dotnet-sdk",
+      "title": ".NET SDK",
+      "category": "machine",
+      "status": "pass",
+      "detail": "10.0.102",
+      "canFix": false,
+      "diagnostics": []
+    },
+    {
+      "id": "maui-resources",
+      "title": "Duplicate resources",
+      "category": "project",
+      "status": "fail",
+      "detail": "3 detected",
+      "recommendation": "Remove duplicate MauiSplashScreen entries.",
+      "canFix": true,
+      "diagnostics": [
+        {
+          "id": "MD030",
+          "message": "Duplicate MauiSplashScreen 'Resources/Splash/splash.svg'",
+          "file": "App.csproj",
+          "line": 12,
+          "severity": "fail",
+          "why": "Identical MAUI resource items confuse pack.",
+          "nextStep": "Keep one Include and delete the extras."
+        }
+      ]
+    }
+  ],
+  "recommendations": [
+    "Remove duplicate MauiSplashScreen entries."
+  ],
+  "fixes": []
+}

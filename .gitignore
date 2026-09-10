@@ -1,0 +1,37 @@
+## Build
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+artifacts/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+.idea/
+*.swp
+*~
+
+## NuGet
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+
+## OS
+.DS_Store
+Thumbs.db
+
+## Test
+TestResults/
+[Tt]est[Rr]esult*/
+*.trx
+coverage*
+*.coverage
+*.coveragexml
+
+## Extension
+extension/vscode/out/
+extension/vscode/node_modules/
+*.vsix
