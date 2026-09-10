@@ -31,15 +31,15 @@ export async function resolveToolPath(): Promise<string | undefined> {
 
 export async function installMauiDevTool(): Promise<void> {
   await vscode.window.withProgress(
-    { location: vscode.ProgressLocation.Notification, title: "Installing MauiDev.Cli" },
+        { location: vscode.ProgressLocation.Notification, title: "Installing Plugin.Maui.MauiDev.Cli" },
     () =>
       new Promise<void>((resolve, reject) => {
-        cp.exec("dotnet tool install -g MauiDev.Cli", (error, stdout, stderr) => {
+        cp.exec("dotnet tool install -g Plugin.Maui.MauiDev.Cli", (error, stdout, stderr) => {
           if (error) {
             reject(new Error(stderr || error.message));
             return;
           }
-          void vscode.window.showInformationMessage(stdout.trim() || "MauiDev.Cli installed.");
+          void vscode.window.showInformationMessage(stdout.trim() || "Plugin.Maui.MauiDev.Cli installed.");
           resolve();
         });
       })

@@ -3,7 +3,7 @@
 
 nuget.org receives the nupkg and matching snupkg (when one exists).
 GitHub Packages receives the nupkg only — that registry does not host
-symbol packages. Both pushes use --skip-duplicate.
+symbol packages. GitHub Packages uses --skip-duplicate. nuget.org does not, so a reserved or ghost ID fails the job.
 
 Template, source-generator, and PackAsTool (.Cli) packages may omit snupkg.
 """
@@ -44,22 +44,23 @@ def find_packages(packages_dir: Path) -> tuple[list[Path], list[Path]]:
     return nupkgs, snupkgs
 
 
-def run_push(path: Path, api_key: str, source: str) -> None:
+def run_push(path: Path, api_key: str, source: str, skip_duplicate: bool) -> None:
     print(f"Pushing {path} to {source}")
-    result = subprocess.run(
-        [
-            "dotnet",
-            "nuget",
-            "push",
-            str(path),
-            "--api-key",
-            api_key,
-            "--source",
-            source,
-            "--skip-duplicate",
-        ],
-        check=False,
-    )
+    command = [
+        "dotnet",
+        "nuget",
+        "push",
+        str(path),
+        "--api-key",
+        api_key,
+        "--source",
+        source,
+    ]
+    # nuget.org 409 "already exists" / "ID is reserved" must fail when the
+    # gallery does not list the package. --skip-duplicate hid that for MauiDev.Cli.
+    if skip_duplicate:
+        command.append("--skip-duplicate")
+    result = subprocess.run(command, check=False)
     if result.returncode != 0:
         fail(f"dotnet nuget push failed for {path} ({source})")
 
@@ -68,6 +69,7 @@ def self_test() -> None:
     assert skip_symbols("Plugin.Maui.MVVMExpress.Templates.1.3.0")
     assert skip_symbols("Plugin.Maui.HttpForge.SourceGenerators.1.0.0")
     assert skip_symbols("Plugin.Maui.Performance.Cli.1.0.7")
+    assert skip_symbols("Plugin.Maui.MauiDev.Cli.1.0.1")
     assert not skip_symbols("Plugin.Maui.GeoLocator.1.0.8")
     assert not skip_symbols("Plugin.Maui.Performance.1.0.7")
     assert github_packages_source("nuvyntralabs") == (
@@ -121,14 +123,14 @@ def main() -> int:
 
     for pkg in nupkgs:
         symbol = pkg.with_name(pkg.name[: -len(".nupkg")] + ".snupkg")
-        run_push(pkg, nuget_key, NUGET_ORG)
+        run_push(pkg, nuget_key, NUGET_ORG, skip_duplicate=False)
         if skip_symbols(pkg.stem):
             print(f"Skipping symbols for {pkg.name}")
         elif not symbol.is_file():
             fail(f"Missing symbol package for {pkg}: {symbol}")
         else:
-            run_push(symbol, nuget_key, NUGET_ORG)
-        run_push(pkg, github_token, github_source)
+            run_push(symbol, nuget_key, NUGET_ORG, skip_duplicate=False)
+        run_push(pkg, github_token, github_source, skip_duplicate=True)
 
     print(
         "GitHub Packages defaults to private on first publish. "

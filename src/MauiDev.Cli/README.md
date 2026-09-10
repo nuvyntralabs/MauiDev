@@ -3,7 +3,7 @@
 A [dotnet tool](https://learn.microsoft.com/dotnet/core/tools/global-tools) that diagnoses .NET MAUI environments and project configuration.
 
 ```bash
-dotnet tool install -g MauiDev.Cli
+dotnet tool install -g Plugin.Maui.MauiDev.Cli
 maui-dev doctor
 maui-dev analyze --ci
 maui-dev resources

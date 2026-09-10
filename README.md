@@ -3,7 +3,7 @@
 Developer productivity toolkit for .NET MAUI: a `maui-dev` [dotnet tool](https://learn.microsoft.com/dotnet/core/tools/global-tools) plus a VS Code / Cursor extension.
 
 **GitHub:** https://github.com/nuvyntralabs/MauiDev  
-**NuGet:** https://www.nuget.org/packages/MauiDev.Cli  
+**NuGet:** https://www.nuget.org/packages/Plugin.Maui.MauiDev.Cli  
 **Catalog:** https://github.com/nuvyntralabs/MauiEssentials  
 **Author:** [Niladri Prasad Padhy](https://github.com/NiladriPadhy)  
 **License:** MIT
@@ -15,7 +15,7 @@ It does **not** replace runtime plugins. Use `Plugin.Maui.Performance` / `maui-p
 ## Install
 
 ```bash
-dotnet tool install -g MauiDev.Cli
+dotnet tool install -g Plugin.Maui.MauiDev.Cli
 maui-dev doctor
 ```
 
@@ -56,7 +56,7 @@ Exit codes: `0` pass/skip, `1` fail (or warning with `--warn-as-error` / `--ci`)
 - script: maui-dev package --validate --ci
 ```
 
-Publishing `MauiDev.Cli` is pipeline-only on this repository. nuget.org uses the Actions secret `NUGET_KEY_MAUIDEV_CLI`. Do not run `dotnet nuget push` from a local clone.
+Publishing `Plugin.Maui.MauiDev.Cli` is pipeline-only on this repository. nuget.org reserved the ID `MauiDev.Cli` (the gallery page 404s and uploads are rejected). nuget.org uses the Actions secret `NUGET_KEY_MAUIDEV_CLI`; that key must be allowed to push `Plugin.Maui.*`. Do not run `dotnet nuget push` from a local clone.
 
 ## Later (not 1.0)
 

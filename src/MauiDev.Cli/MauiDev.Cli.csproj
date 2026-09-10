@@ -11,13 +11,13 @@
     <RootNamespace>MauiDev.Cli</RootNamespace>
     <AssemblyName>MauiDev.Cli</AssemblyName>
 
-    <PackageId>MauiDev.Cli</PackageId>
+    <PackageId>Plugin.Maui.MauiDev.Cli</PackageId>
     <Title>maui-dev — .NET MAUI developer doctor</Title>
     <Description>dotnet tool that diagnoses MAUI SDK, workloads, project configuration, resources, and pack metadata. Pair with the MauiDev VS Code / Cursor extension.</Description>
     <PackageTags>dotnet-maui;maui;doctor;cli;dotnet-tool;vscode</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Publish 1.0.1 so nuget.org lists MauiDev.Cli (1.0.0 was reserved but not publicly listed).</PackageReleaseNotes>
+    <PackageReleaseNotes>Use PackageId Plugin.Maui.MauiDev.Cli. nuget.org reserved MauiDev.Cli (gallery 404, uploads rejected).</PackageReleaseNotes>
     <Version>1.0.1</Version>
   </PropertyGroup>
 

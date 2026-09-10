@@ -1,4 +1,4 @@
-# MauiDev.Cli (maui-dev) PackAsTool + VS Code / Cursor extension.
+# Plugin.Maui.MauiDev.Cli (maui-dev) PackAsTool + VS Code / Cursor extension.
 # Version alignment covers the packable CLI and extension/vscode/package.json.
 # Pack emits the PackAsTool nupkg only (no snupkg). Linux is enough (net10.0).
 # Publish pushes the nupkg to nuget.org (secret NUGET_KEY_MAUIDEV_CLI) and GitHub Packages.

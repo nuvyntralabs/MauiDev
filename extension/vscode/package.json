@@ -52,7 +52,7 @@
       },
       {
         "command": "mauiDev.installTool",
-        "title": "MauiDev: Install MauiDev.Cli"
+        "title": "MauiDev: Install Plugin.Maui.MauiDev.Cli"
       }
     ],
     "configuration": {

@@ -51,7 +51,7 @@ async function run(command: string, extra: string[] = []): Promise<void> {
   const tool = await resolveToolPath();
   if (!tool) {
     const choice = await vscode.window.showErrorMessage(
-      "maui-dev was not found. Install MauiDev.Cli?",
+      "maui-dev was not found. Install Plugin.Maui.MauiDev.Cli?",
       "Install",
       "Cancel"
     );

@@ -3,7 +3,7 @@
 Developer productivity toolkit for .NET MAUI: `maui-dev` doctor / analyze / resources / clean / package, plus a VS Code / Cursor extension.
 
 Repository: https://github.com/nuvyntralabs/MauiDev
-NuGet: https://www.nuget.org/packages/MauiDev.Cli
+NuGet: https://www.nuget.org/packages/Plugin.Maui.MauiDev.Cli
 Catalog: https://github.com/nuvyntralabs/MauiEssentials
 License: MIT
 
@@ -13,9 +13,9 @@ net10.0 (dotnet tool). The VS Code extension requires VS Code / Cursor 1.90+.
 
 ## Installation
 
-dotnet tool install -g MauiDev.Cli
+dotnet tool install -g Plugin.Maui.MauiDev.Cli
 
-Then: `maui-dev doctor`. Do not `dotnet add package MauiDev.Cli` into an app.
+Then: `maui-dev doctor`. Do not `dotnet add package Plugin.Maui.MauiDev.Cli` into an app.
 
 ## Use this project when a developer is looking for
 

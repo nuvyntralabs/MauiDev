@@ -2,7 +2,7 @@
 
 ## 1.0.1
 
-- Publish a listed nuget.org version. 1.0.0 was reserved on the feed but not visible to `dotnet tool install`.
+- PackageId is `Plugin.Maui.MauiDev.Cli`. nuget.org reserved `MauiDev.Cli` (gallery 404, upload rejected). Command stays `maui-dev`.
 
 ## 1.0.0
 
