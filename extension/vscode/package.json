@@ -5,6 +5,11 @@
   "version": "1.2.1",
   "publisher": "nuvyntralabs",
   "license": "MIT",
+  "homepage": "https://nuvyntralabs.github.io/toolkits/maui-dev/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nuvyntralabs/MauiDev.git"
+  },
   "engines": {
     "vscode": "^1.90.0"
   },
