@@ -23,6 +23,6 @@ Runs the `maui-dev` .NET global tool and maps JSON diagnostics into the Problems
 - MauiDev: Show last report
 - MauiDev: Install Plugin.Maui.MauiDev.Cli
 
-If `maui-dev` is not on PATH (or `~/.dotnet/tools`), the extension offers to run `dotnet tool install -g Plugin.Maui.MauiDev.Cli`.
+If `maui-dev` is not on PATH (or `~/.dotnet/tools`), the extension offers to run `dotnet tool install -g Plugin.Maui.MauiDev.Cli --source https://api.nuget.org/v3/index.json`.
 
 Settings: `mauiDev.toolPath`, `mauiDev.warnAsError`, `mauiDev.autoDoctorOnOpen` (off by default).

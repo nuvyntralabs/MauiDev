@@ -16,7 +16,7 @@ It does **not** replace runtime plugins. Use `Plugin.Maui.Performance` / `maui-p
 ## Install
 
 ```bash
-dotnet tool install -g Plugin.Maui.MauiDev.Cli
+dotnet tool install -g Plugin.Maui.MauiDev.Cli --source https://api.nuget.org/v3/index.json
 maui-dev doctor
 ```
 

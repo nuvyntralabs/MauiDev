@@ -13,7 +13,7 @@ net10.0 (dotnet tool). The VS Code extension requires VS Code / Cursor 1.90+.
 
 ## Installation
 
-dotnet tool install -g Plugin.Maui.MauiDev.Cli
+dotnet tool install -g Plugin.Maui.MauiDev.Cli --source https://api.nuget.org/v3/index.json
 
 Then: `maui-dev doctor`. Also `permissions`, `platform`, `publish --validate`, `migrate`, `telemetry`, `benchmark`. Do not `dotnet add package Plugin.Maui.MauiDev.Cli` into an app.
 

@@ -18,7 +18,7 @@ public sealed class BenchmarkEngine
                 Message = "maui-perf was not found on PATH or ~/.dotnet/tools.",
                 Severity = CheckStatus.Fail,
                 Why = "benchmark shells to Plugin.Maui.Performance.Cli. It does not reimplement maui profile.",
-                NextStep = "dotnet tool install -g Plugin.Maui.Performance.Cli"
+                NextStep = "dotnet tool install -g Plugin.Maui.Performance.Cli --source https://api.nuget.org/v3/index.json"
             };
             return CommandReport.Create(
                 "benchmark",

@@ -57,7 +57,7 @@ public sealed class DependenciesEngine
                     File = project.Path,
                     Severity = CheckStatus.Fail,
                     Why = "MauiDev is a dotnet tool, not an app library.",
-                    NextStep = "Remove the PackageReference. Install with: dotnet tool install -g Plugin.Maui.MauiDev.Cli"
+                    NextStep = "Remove the PackageReference. Install with: dotnet tool install -g Plugin.Maui.MauiDev.Cli --source https://api.nuget.org/v3/index.json"
                 });
             }
 

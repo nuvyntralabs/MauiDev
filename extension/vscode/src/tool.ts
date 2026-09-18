@@ -34,7 +34,7 @@ export async function installMauiDevTool(): Promise<void> {
         { location: vscode.ProgressLocation.Notification, title: "Installing Plugin.Maui.MauiDev.Cli" },
     () =>
       new Promise<void>((resolve, reject) => {
-        cp.exec("dotnet tool install -g Plugin.Maui.MauiDev.Cli", (error, stdout, stderr) => {
+        cp.exec("dotnet tool install -g Plugin.Maui.MauiDev.Cli --source https://api.nuget.org/v3/index.json", (error, stdout, stderr) => {
           if (error) {
             reject(new Error(stderr || error.message));
             return;
