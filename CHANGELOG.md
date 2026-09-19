@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2
+
+- Interactive nuget.org self-update check every 4 hours (`--no-update-check` or `NUVYNTRA_NO_UPDATE_CHECK=1` to skip). The CLI does not phone home. `--no-update-check` is new in 1.2.2; Nuvyn must not pass it to `maui-dev doctor` when the installed tool is 1.2.1.
+
 ## 1.2.1
 
 - `PackageProjectUrl` and docs links point at https://nuvyntralabs.github.io/toolkits/maui-dev/

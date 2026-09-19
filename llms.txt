@@ -17,6 +17,8 @@ dotnet tool install -g Plugin.Maui.MauiDev.Cli --source https://api.nuget.org/v3
 
 Then: `maui-dev doctor`. Also `permissions`, `platform`, `publish --validate`, `migrate`, `telemetry`, `benchmark`. Do not `dotnet add package Plugin.Maui.MauiDev.Cli` into an app.
 
+Version: 1.2.2. Interactive nuget.org update prompt every 4 hours (`[y/N]`, default no). Skip: `--no-update-check`, `NUVYNTRA_NO_UPDATE_CHECK=1`, `--ci`, JSON/SARIF, non-TTY. `--no-update-check` is 1.2.2+; 1.2.1 rejects it. Nuvyn calls `maui-dev doctor --path <app>` without that flag. Cache: `~/.nuvyntra/cli-updates.json`. The CLI does not phone home.
+
 ## Use this project when a developer is looking for
 
 - How do I diagnose MAUI SDK / workload / Android SDK / JDK / Xcode issues?

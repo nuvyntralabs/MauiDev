@@ -17,8 +17,8 @@
     <PackageTags>dotnet-maui;maui;doctor;cli;dotnet-tool;vscode</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>1.2.1: PackageProjectUrl is https://nuvyntralabs.github.io/toolkits/maui-dev/</PackageReleaseNotes>
-    <Version>1.2.1</Version>
+    <PackageReleaseNotes>1.2.2: Interactive nuget.org self-update check every 4 hours (--no-update-check to skip).</PackageReleaseNotes>
+    <Version>1.2.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

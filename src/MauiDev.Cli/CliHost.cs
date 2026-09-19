@@ -34,6 +34,7 @@ public static class CliHost
           --dry-run                 Print fixes or deletions without writing
           --warn-as-error           Treat warnings as exit code 1
           --timeout <seconds>       Process timeout (default 30)
+          --no-update-check         Skip the nuget.org self-update prompt
 
         clean extras
           --nuget-http-cache        Delete the NuGet HTTP cache (requires --yes)
@@ -80,17 +81,32 @@ public static class CliHost
         TextWriter stderr,
         Func<string, CheckContext> contextFactory)
     {
-        if (args.Count == 0 || IsHelp(args[0]))
+        var remaining = ToolUpdateCheck.ConsumeNoUpdateCheckFlag(args, out var noUpdateCheck);
+        var update = ToolUpdateCheck.Run(new UpdateCheckOptions
+        {
+            ToolKey = "maui-dev",
+            PackageId = "Plugin.Maui.MauiDev.Cli",
+            CurrentVersion = ToolUpdateCheck.ReadAssemblyVersion(typeof(CliHost)),
+            Args = remaining,
+            Stdout = stdout,
+            Stderr = stderr,
+            Stdin = Console.In,
+            AllowPrompt = ToolUpdateCheck.IsInteractive(stdout) && !noUpdateCheck,
+        });
+        if (update == UpdateCheckOutcome.UpdatedExit)
+            return ExitCodes.Success;
+
+        if (remaining.Length == 0 || IsHelp(remaining[0]))
         {
             stdout.WriteLine(Usage);
             return ExitCodes.Success;
         }
 
         var root = BuildRoot(stdout, stderr, contextFactory);
-        var parse = root.Parse([.. args]);
-        if (parse.Errors.Count > 0 && !LooksLikeKnownCommand(args[0]))
+        var parse = root.Parse(remaining);
+        if (parse.Errors.Count > 0 && !LooksLikeKnownCommand(remaining[0]))
         {
-            stderr.WriteLine($"Unknown command '{args[0]}'.");
+            stderr.WriteLine($"Unknown command '{remaining[0]}'.");
             stderr.WriteLine();
             stderr.WriteLine(Usage);
             return ExitCodes.Usage;

@@ -43,7 +43,9 @@ VS Code / Cursor: install the **MauiDev** extension (`nuvyntralabs.maui-dev`) fr
 | `maui-dev clean` | Delete `bin` / `obj` (optional NuGet HTTP cache and workload temp behind flags) |
 | `maui-dev package` | Validate pack metadata (`--validate`, default). `--pack` runs `dotnet pack` locally and never pushes |
 
-Global options: `--path`, `--format human|json|sarif`, `--ci` (JSON + warn-as-error), `--fix`, `--dry-run`, `--warn-as-error`, `--timeout`.
+Global options: `--path`, `--format human|json|sarif`, `--ci` (JSON + warn-as-error), `--fix`, `--dry-run`, `--warn-as-error`, `--timeout`, `--no-update-check`.
+
+On an interactive terminal the CLI asks every 4 hours whether to update from nuget.org (`[y/N]`, default no). Cache: `~/.nuvyntra/cli-updates.json`. Skip with `--no-update-check`, `NUVYNTRA_NO_UPDATE_CHECK=1`, or any `--ci` / JSON / SARIF run. `--no-update-check` shipped in **1.2.2**; 1.2.1 treats it as an unknown option. Nuvyn therefore calls `maui-dev doctor --path <app>` without that flag. The CLI does not phone home.
 
 ```bash
 maui-dev doctor --fix --dry-run
